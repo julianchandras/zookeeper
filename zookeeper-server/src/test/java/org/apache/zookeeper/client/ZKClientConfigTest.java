@@ -101,6 +101,18 @@ public class ZKClientConfigTest {
 
     @Test
     @Timeout(value = 10)
+    public void testSaslClientEnabledSystemPropertyWithTrailingWhitespace() {
+        System.setProperty(ENABLE_CLIENT_SASL_KEY, "true ");
+        try {
+            ZKClientConfig conf = new ZKClientConfig();
+            assertTrue(conf.isSaslClientEnabled());
+        } finally {
+            System.clearProperty(ENABLE_CLIENT_SASL_KEY);
+        }
+    }
+
+    @Test
+    @Timeout(value = 10)
     public void testReadConfigurationFile(@TempDir File testDataDir) throws IOException, ConfigException {
         File file = File.createTempFile("clientConfig", ".conf", testDataDir);
         Properties clientConfProp = new Properties();
